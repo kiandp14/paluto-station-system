@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PALUTO STATION SYSTEM</title>
+    <style>
+      :root {
+        --orange: #F45A00;
+        --orange-dark: #D93F00;
+        --orange-soft: #FFF1E8;
+        --blue: #3159D8;
+        --blue-soft: #EEF3FF;
+        --cream: #FFFDF8;
+        --bg: #F6F7FA;
+        --card: #FFFFFF;
+        --text: #1F2430;
+        --muted: #6C7280;
+        --border: #E7E9EE;
+        --success: #198754;
+        --warning: #F4B400;
+        --danger: #DC3545;
+        --shadow: 0 8px 24px rgba(30, 35, 50, 0.08);
+        --icon-dark: #333333;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+      }
+
+      button, input, select {
+        font: inherit;
+      }
+
+      a { text-decoration: none; }
+
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 190px;
+        background: #fff;
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        padding: 18px 12px 12px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 10px 18px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
+
+      .logo-circle {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--orange), #FF8C48);
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .brand-text {
+        line-height: 1.2;
+      }
+
+      .brand-text strong {
+        display: block;
+        font-size: 13px;
+        color: var(--text);
+      }
+
+      .brand-text small {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .nav-group {
+        margin-bottom: 12px;
+      }
+
+      .nav-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 0 10px 8px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        border: none;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: var(--text);
+        cursor: pointer;
+        font-size: 14px;
+        margin-bottom: 4px;
+        transition: 0.2s ease;
+      }
+
+      .nav-item svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--icon-dark);
+        stroke-width: 2;
+        fill: none;
+      }
+
+      .nav-item:hover {
+        background: var(--orange-soft);
+        color: var(--orange);
+      }
+
+      .nav-item:hover svg {
+        stroke: var(--orange);
+      }
+
+      .nav-item.active {
+        background: var(--orange);
+        color: white;
+        box-shadow: 0 6px 16px rgba(244, 90, 0, 0.24);
+      }
+
+      .nav-item.active svg {
+        stroke: white;
+      }
+
+      .logout {
+        margin-top: auto;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+      }
+
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      .topbar {
+        height: 64px;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px 0 24px;
+      }
+
+      .page-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .page-title h2 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: 0.02em;
+      }
+
+      .date-pill {
+        background: var(--orange-soft);
+        color: var(--orange);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .user-panel {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .notify {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f7f8fb;
+        border: 1px solid var(--border);
+        cursor: pointer;
+      }
+
+      .notify svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--icon-dark);
+        stroke-width: 2;
+        fill: none;
+      }
+
+      .profile-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--orange), #FF9A5B);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .profile-meta {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+      }
+
+      .profile-meta strong {
+        font-size: 13px;
+      }
+
+      .profile-meta span {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .content {
+        padding: 22px;
+        overflow-y: auto;
+      }
+
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(140px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 16px;
+      }
+
+      .kpi {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .kpi:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 92px;
+        height: 92px;
+        background: rgba(244, 90, 0, 0.04);
+        border-radius: 50%;
+        transform: translate(24px, -28px);
+      }
+
+      .kpi .small {
+        color: var(--muted);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        position: relative;
+      }
+
+      .kpi .value {
+        position: relative;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+
+      .kpi .meta {
+        position: relative;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .kpi.orange .value { color: var(--orange); }
+      .kpi.blue .value { color: var(--blue); }
+      .kpi.green .value { color: var(--success); }
+      .kpi.red .value { color: var(--danger); }
+
+      .section-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 18px 12px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .panel-title {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .chip-group {
+        display: inline-flex;
+        background: #f5f6fa;
+        border-radius: 999px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+
+      .chip {
+        border: 0;
+        background: transparent;
+        padding: 7px 10px;
+        font-size: 12px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .chip.active {
+        background: var(--orange);
+        color: white;
+      }
+
+      .chart-box {
+        height: 260px;
+        padding: 14px 18px 18px;
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+      }
+
+      .bar-group {
+        flex: 1;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        height: 100%;
+        gap: 10px;
+      }
+
+      .bar-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items: center;
+        height: 100%;
+      }
+
+      .bar {
+        width: 100%;
+        max-width: 26px;
+        border-radius: 8px 8px 0 0;
+        background: linear-gradient(180deg, #ff8d54 0%, var(--orange) 100%);
+        min-height: 20px;
+      }
+
+      .bar-label {
+        margin-top: 8px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .list-stack {
+        padding: 16px 18px 18px;
+      }
+
+      .alert-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .alert-item:last-child {
+        border-bottom: 0;
+      }
+
+      .mini-thumb {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #ffe3d1, #fffaf5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--orange);
+        font-size: 18px;
+      }
+
+      .alert-meta {
+        flex: 1;
+      }
+
+      .alert-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .alert-stock {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 5px 8px;
+        min-width: 68px;
+        text-align: center;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .status-low { background: #fff4d9; color: #9c6a00; }
+      .status-verylow { background: #ffeae8; color: #b63832; }
+      .status-out { background: #fde4e5; color: var(--danger); }
+
+      .bottom-row {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .table-wrap {
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        padding: 12px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        font-size: 13px;
+      }
+
+      th {
+        background: #fafbfc;
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .product-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .product-pill {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff0e5;
+        color: var(--orange);
+      }
+
+      .text-right { text-align: right; }
+
+      .muted { color: var(--muted); }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(110px, 1fr));
+        gap: 14px;
+        padding: 16px 18px 18px;
+      }
+
+      .mini-product {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+      }
+
+      .mini-thumb-large {
+        height: 74px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #ffedd9, #ffe5d0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+
+      .mini-name {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .mini-meta {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      @media (max-width: 1180px) {
+        .kpis {
+          grid-template-columns: repeat(3, minmax(140px, 1fr));
+        }
+      }
+
+      @media (max-width: 940px) {
+        .app {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          border-right: 0;
+          border-bottom: 1px solid var(--border);
+          flex-direction: row;
+          overflow-x: auto;
+          padding: 12px;
+        }
+
+        .brand {
+          border-bottom: 0;
+          margin-bottom: 0;
+          padding: 8px 10px;
+          margin-right: 16px;
+        }
+
+        .nav-group {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 0;
+        }
+
+        .nav-label {
+          display: none;
+        }
+
+        .nav-item {
+          margin-bottom: 0;
+          white-space: nowrap;
+        }
+
+        .section-row,
+        .bottom-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .content {
+          padding: 14px;
+        }
+
+        .topbar {
+          padding: 0 14px;
+          height: 58px;
+        }
+
+        .page-title h2 {
+          font-size: 16px;
+        }
+
+        .date-pill {
+          display: none;
+        }
+
+        .kpis {
+          grid-template-columns: repeat(2, minmax(120px, 1fr));
+        }
+
+        .panel-header {
+          padding: 14px 14px 10px;
+        }
+
+        .chart-box {
+          height: 210px;
+          padding: 10px 14px 14px;
+        }
+
+        .table-wrap {
+          overflow-x: auto;
+        }
+
+        table {
+          min-width: 620px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="logo-circle">P</div>
+          <div class="brand-text">
+            <strong>PALUTO</strong>
+            <small>Sari-Sari</small>
+          </div>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-label">Main</div>
+          <button class="nav-item active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M9 2H3v6h6V2zm0 11H3v6h6v-6zm11-11h-6v6h6V2zm-6 11v6h6v-6h-6z"/></svg>
+            <span>POS / Sales</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg>
+            <span>Products</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+            <span>Inventory</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6 0-8 3-8 3v6h16v-6s-2-3-8-3z"/></svg>
+            <span>Customers</span>
+          </button>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-label">Management</div>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6 0-8 3-8 3v6h16v-6s-2-3-8-3z"/></svg>
+            <span>Employees</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="2"/><path d="M5 9h14v10H5V9z"/></svg>
+            <span>Attendance</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm0 8h8v-6H3v6zm10-8h8V3h-8v8zm0 8h8v-6h-8v6z"/></svg>
+            <span>Payroll</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+            <span>Expenses</span>
+          </button>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-label">Reports</div>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>
+            <span>Reports</span>
+          </button>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-label">System</div>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><path d="M12 8.5c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm8-3.5c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM4 12c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2z" fill="currentColor"/></svg>
+            <span>Settings</span>
+          </button>
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>
+            <span>Activity Logs</span>
+          </button>
+        </div>
+
+        <div class="nav-group logout">
+          <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="page-title">
+            <h2>Dashboard</h2>
+            <span class="date-pill" id="currentDate">October 5, 2026</span>
+          </div>
+
+          <div class="user-panel">
+            <div class="notify">
+              <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            </div>
+            <div class="profile-box">
+              <div class="avatar" id="userAvatar">MS</div>
+              <div class="profile-meta">
+                <strong id="userName">Maria Santos</strong>
+                <span id="userRole">Admin</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="content">
+          <div class="kpis">
+            <div class="card kpi orange">
+              <div class="small">Today's Sales</div>
+              <div class="value">₱8,450</div>
+              <div class="meta">vs yesterday</div>
+            </div>
+
+            <div class="card kpi blue">
+              <div class="small">Transactions</div>
+              <div class="value">126</div>
+              <div class="meta">Completed</div>
+            </div>
+
+            <div class="card kpi green">
+              <div class="small">Items Sold</div>
+              <div class="value">310</div>
+              <div class="meta">Units</div>
+            </div>
+
+            <div class="card kpi orange">
+              <div class="small">Low Stock</div>
+              <div class="value">7</div>
+              <div class="meta">Products</div>
+            </div>
+
+            <div class="card kpi red">
+              <div class="small">Out of Stock</div>
+              <div class="value">4</div>
+              <div class="meta">Products</div>
+            </div>
+
+            <div class="card kpi blue">
+              <div class="small">Inventory Value</div>
+              <div class="value">₱86,500</div>
+              <div class="meta">Estimated</div>
+            </div>
+          </div>
+
+          <div class="section-row">
+            <section class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Sales Overview</div>
+                <div class="chip-group">
+                  <button class="chip active">Today</button>
+                  <button class="chip">7 Days</button>
+                  <button class="chip">30 Days</button>
+                  <button class="chip">Month</button>
+                </div>
+              </div>
+
+              <div class="chart-box">
+                <div class="bar-group">
+                  <div class="bar-col">
+                    <div class="bar" style="height: 42%"></div>
+                    <div class="bar-label">Mon</div>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar" style="height: 61%"></div>
+                    <div class="bar-label">Tue</div>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar" style="height: 49%"></div>
+                    <div class="bar-label">Wed</div>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar" style="height: 76%"></div>
+                    <div class="bar-label">Thu</div>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar" style="height: 58%"></div>
+                    <div class="bar-label">Fri</div>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar" style="height: 88%"></div>
+                    <div class="bar-label">Sat</div>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar" style="height: 72%"></div>
+                    <div class="bar-label">Sun</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Low Stock Alerts</div>
+              </div>
+
+              <div class="list-stack">
+                <div class="alert-item">
+                  <div class="mini-thumb">🥤</div>
+                  <div class="alert-meta">
+                    <div class="alert-name">Coke 1.5L</div>
+                    <div class="alert-stock">4 pcs</div>
+                  </div>
+                  <span class="status-badge status-verylow">VERY LOW</span>
+                </div>
+
+                <div class="alert-item">
+                  <div class="mini-thumb">🍜</div>
+                  <div class="alert-meta">
+                    <div class="alert-name">Instant Noodles</div>
+                    <div class="alert-stock">6 pcs</div>
+                  </div>
+                  <span class="status-badge status-low">LOW</span>
+                </div>
+
+                <div class="alert-item">
+                  <div class="mini-thumb">🧴</div>
+                  <div class="alert-meta">
+                    <div class="alert-name">Soap</div>
+                    <div class="alert-stock">0 pcs</div>
+                  </div>
+                  <span class="status-badge status-out">OUT</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="bottom-row">
+            <section class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Top Selling Products</div>
+              </div>
+
+              <div class="product-grid">
+                <div class="mini-product">
+                  <div class="mini-thumb-large">🥤</div>
+                  <div class="mini-name">Coke 1.5L</div>
+                  <div class="mini-meta">110 sold</div>
+                </div>
+
+                <div class="mini-product">
+                  <div class="mini-thumb-large">🍜</div>
+                  <div class="mini-name">Noodle Bowl</div>
+                  <div class="mini-meta">92 sold</div>
+                </div>
+
+                <div class="mini-product">
+                  <div class="mini-thumb-large">🍟</div>
+                  <div class="mini-name">Chips</div>
+                  <div class="mini-meta">84 sold</div>
+                </div>
+
+                <div class="mini-product">
+                  <div class="mini-thumb-large">🥯</div>
+                  <div class="mini-name">Hotdog Bun</div>
+                  <div class="mini-meta">70 sold</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Recent Transactions</div>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Receipt</th>
+                      <th>Customer</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>#PS-1024</td>
+                      <td>Rina D.</td>
+                      <td class="text-right">₱420.00</td>
+                    </tr>
+                    <tr>
+                      <td>#PS-1025</td>
+                      <td>Carlos M.</td>
+                      <td class="text-right">₱230.00</td>
+                    </tr>
+                    <tr>
+                      <td>#PS-1026</td>
+                      <td>Maria P.</td>
+                      <td class="text-right">₱185.00</td>
+                    </tr>
+                    <tr>
+                      <td>#PS-1027</td>
+                      <td>John L.</td>
+                      <td class="text-right">₱560.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Store Performance</div>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                    <th>Metric</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Daily Sales</td>
+                    <td>₱8,450</td>
+                    <td>Weekly Sales</td>
+                    <td>₱32,100</td>
+                  </tr>
+                  <tr>
+                    <td>Monthly Sales</td>
+                    <td>₱115,600</td>
+                    <td>Transaction Count</td>
+                    <td>126</td>
+                  </tr>
+                  <tr>
+                    <td>Average Transaction</td>
+                    <td>₱67.00</td>
+                    <td>Top Product</td>
+                    <td>Coke 1.5L</td>
+                  </tr>
+                  <tr>
+                    <td>Inventory Value</td>
+                    <td>₱86,500</td>
+                    <td>Estimated Profit</td>
+                    <td>₱24,300</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function updateDateTime() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+      }
+
+      function loadUserInfo() {
+        google.script.run.withSuccessHandler(function(user) {
+          if (user && user.authenticated) {
+            document.getElementById('userName').textContent = user.FullName || 'User';
+            document.getElementById('userRole').textContent = user.Role || 'Role';
+            const initials = (user.FullName || 'U').split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('userAvatar').textContent = initials;
+          }
+        }).getCurrentSessionUser();
+      }
+
+      updateDateTime();
+      loadUserInfo();
+    </script>
+  </body>
+</html>
