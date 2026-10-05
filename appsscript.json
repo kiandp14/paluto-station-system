@@ -1,0 +1,9 @@
+{
+  "timeZone": "Asia/Manila",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "web": {
+    "access": "DOMAIN",
+    "executeAs": "USER_ACCESSING"
+  }
+}
