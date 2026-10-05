@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PALUTO STATION SYSTEM</title>
+    <style>
+      :root {
+        --orange: #F45A00;
+        --orange-dark: #d94800;
+        --blue: #3159D8;
+        --cream: #FFFDF8;
+        --card: #FFFFFF;
+        --text: #222222;
+        --muted: #666666;
+        --border: #E8E8E8;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+        color: var(--text);
+      }
+
+      .page-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        overflow: hidden;
+      }
+
+      .brand {
+        background: var(--orange);
+        color: white;
+        padding: 28px 24px 18px;
+        text-align: center;
+      }
+
+      .brand-logo {
+        width: 72px;
+        height: 72px;
+        background: rgba(255,255,255,0.22);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        margin-bottom: 12px;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 24px;
+        letter-spacing: 0.5px;
+      }
+
+      .brand p {
+        margin: 8px 0 0;
+        font-size: 14px;
+        opacity: 0.95;
+      }
+
+      .content {
+        padding: 28px 24px 24px;
+      }
+
+      .status {
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #fff6ed;
+        border: 1px solid #ffd9bb;
+        color: var(--orange-dark);
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+
+      .login-button {
+        width: 100%;
+        background: var(--orange);
+        border: none;
+        color: white;
+        padding: 14px 18px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .login-button:hover {
+        background: var(--orange-dark);
+      }
+
+      .meta {
+        text-align: center;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <div class="login-card">
+        <div class="brand">
+          <div class="brand-logo">🍽️</div>
+          <h1>PALUTO STATION</h1>
+          <p>Sari-Sari Store</p>
+        </div>
+
+        <div class="content">
+          <div class="status">Please sign in with your authorized Google account.</div>
+          <button class="login-button" onclick="google.script.run.withSuccessHandler(function(res){ if(res && res.success){ location.reload(); } else { alert(res && res.message ? res.message : 'Login failed'); } }).loginUser();">
+            LOGIN
+          </button>
+          <div class="meta">Authorized access for Admin and Cashier users only.</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
